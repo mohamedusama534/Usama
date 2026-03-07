@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tag, Search, Loader2, ArrowRight, Clock } from 'lucide-react';
+import { Tag, Search, Loader2, ArrowRight, Clock, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Offers: React.FC = () => {
   const { t } = useTranslation();
@@ -43,14 +44,17 @@ const Offers: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredOffers.length > 0 ? filteredOffers.map((offer) => (
-          <div key={offer.offerId} className="bg-white p-6 rounded-3xl border border-zinc-200 border-l-4 border-l-indigo-600 space-y-4 hover:shadow-lg transition-all">
+          <Link key={offer.offerId} to={`/offers/${offer.offerId}`} className="group bg-white p-6 rounded-3xl border border-zinc-200 border-l-4 border-l-indigo-600 space-y-4 hover:shadow-lg transition-all">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+              <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                 <Tag className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-zinc-900">{offer.title}</h3>
-                <p className="text-zinc-500 text-xs">{offer.businessName}</p>
+                <h3 className="font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{offer.title}</h3>
+                <div className="flex items-center gap-1">
+                  <p className="text-zinc-500 text-xs">{offer.businessName}</p>
+                  <CheckCircle className="w-3 h-3 text-indigo-600 fill-indigo-600/10" />
+                </div>
               </div>
             </div>
             <p className="text-zinc-600 text-sm line-clamp-3">{offer.description}</p>
@@ -60,7 +64,7 @@ const Offers: React.FC = () => {
               </span>
               <span className="text-indigo-600">{new Date(offer.expiryDate).toLocaleDateString()}</span>
             </div>
-          </div>
+          </Link>
         )) : (
           <div className="col-span-full py-20 text-center space-y-4">
             <div className="w-20 h-20 bg-zinc-100 rounded-3xl flex items-center justify-center mx-auto text-zinc-400">

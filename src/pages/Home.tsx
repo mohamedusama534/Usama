@@ -1,129 +1,152 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Briefcase, Tag, MapPin, Clock, ArrowRight, Star } from 'lucide-react';
+import { Briefcase, Tag, ArrowRight, Image as ImageIcon, MessageSquare, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+import { motion } from 'motion/react';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
-  const [jobs, setJobs] = useState<any[]>([]);
-  const [offers, setOffers] = useState<any[]>([]);
 
-  useEffect(() => {
-    fetch('/api/jobs').then(res => res.json()).then(setJobs);
-    fetch('/api/offers').then(res => res.json()).then(setOffers);
-  }, []);
+  const portals = [
+    {
+      title: t('jobs'),
+      description: 'Find local hiring opportunities and apply directly to businesses.',
+      icon: Briefcase,
+      path: '/jobs',
+      color: 'bg-indigo-600',
+      lightColor: 'bg-indigo-50',
+      textColor: 'text-indigo-600'
+    },
+    {
+      title: t('offers'),
+      description: 'Discover exclusive deals, discounts, and text-based offers.',
+      icon: Tag,
+      path: '/offers',
+      color: 'bg-emerald-600',
+      lightColor: 'bg-emerald-50',
+      textColor: 'text-emerald-600'
+    },
+    {
+      title: 'Business Feed',
+      description: 'Browse visual posters, latest updates, and social announcements.',
+      icon: ImageIcon,
+      path: '/posters',
+      color: 'bg-fuchsia-600',
+      lightColor: 'bg-fuchsia-50',
+      textColor: 'text-fuchsia-600'
+    }
+  ];
 
   return (
-    <div className="space-y-12">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-16 pb-20"
+    >
       {/* Hero Section */}
-      <section className="relative h-[400px] rounded-3xl overflow-hidden bg-indigo-900 text-white flex items-center px-8 md:px-16">
+      <motion.section 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="relative h-[500px] rounded-[40px] overflow-hidden bg-zinc-900 text-white flex items-center px-8 md:px-16 shadow-2xl"
+      >
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1920&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1920&auto=format&fit=crop" 
             alt="Hero Background" 
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-40"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-900 via-zinc-900/60 to-transparent" />
         </div>
-        <div className="relative z-10 max-w-2xl space-y-6">
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight tracking-tight">
-            {t('welcome')}
+        <div className="relative z-10 max-w-2xl space-y-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm font-bold tracking-wide">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            WELCOME TO WORKBRIDGE
+          </div>
+          <h1 className="text-6xl md:text-7xl font-bold leading-tight tracking-tighter">
+            Connecting <span className="text-indigo-400">Local</span> Businesses.
           </h1>
-          <p className="text-xl text-indigo-100 font-light">
-            Connecting local businesses with skilled helpers in Tamil Nadu. Find your next opportunity or hire the best talent today.
+          <p className="text-xl text-zinc-300 font-medium leading-relaxed">
+            The all-in-one platform for jobs, offers, and visual advertisements in your neighborhood.
           </p>
-          <div className="flex gap-4">
-            <Link to="/jobs" className="px-8 py-4 bg-white text-indigo-900 rounded-2xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-2">
-              {t('search_jobs')} <ArrowRight className="w-5 h-5" />
+          <div className="flex gap-4 pt-4">
+            <Link to="/register" className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/25">
+              Get Started
+            </Link>
+            <Link to="/login" className="px-8 py-4 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-2xl font-bold hover:bg-white/20 transition-all">
+              Sign In
             </Link>
           </div>
         </div>
+      </motion.section>
+
+      {/* Portal Grid */}
+      <section className="space-y-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center space-y-2"
+        >
+          <h2 className="text-3xl font-bold text-zinc-900">Choose Your Path</h2>
+          <p className="text-zinc-500 font-medium">Explore the different ways WorkBridge connects you with your community.</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {portals.map((portal, index) => (
+            <motion.div
+              key={portal.path}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Link 
+                to={portal.path} 
+                className="group bg-white p-8 rounded-[40px] border border-zinc-200 hover:border-transparent hover:shadow-2xl hover:shadow-zinc-200 transition-all duration-500 flex flex-col items-center text-center space-y-6 h-full"
+              >
+                <div className={`w-20 h-20 ${portal.lightColor} rounded-[28px] flex items-center justify-center ${portal.textColor} group-hover:scale-110 transition-transform duration-500`}>
+                  <portal.icon className="w-10 h-10" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-zinc-900">{portal.title}</h3>
+                  <p className="text-zinc-500 text-sm font-medium leading-relaxed">
+                    {portal.description}
+                  </p>
+                </div>
+                <div className={`flex items-center gap-2 font-bold text-sm ${portal.textColor} mt-auto`}>
+                  Explore Now <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </section>
 
-      {/* Featured Jobs */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
-            <Briefcase className="w-6 h-6 text-indigo-600" />
-            {t('jobs')}
-          </h2>
-          <Link to="/jobs" className="text-indigo-600 font-medium hover:underline flex items-center gap-1">
-            View all <ArrowRight className="w-4 h-4" />
+      {/* Extra Features */}
+      <motion.section 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        className="bg-indigo-600 rounded-[40px] p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8"
+      >
+        <div className="space-y-4 max-w-xl">
+          <h2 className="text-3xl font-bold">Real-time Communication</h2>
+          <p className="text-indigo-100 font-medium leading-relaxed">
+            Message business owners directly from any post. Whether it's a job inquiry or a question about an offer, WorkBridge keeps you connected.
+          </p>
+          <Link to="/chat" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-600 rounded-xl font-bold hover:bg-indigo-50 transition-all">
+            <MessageSquare className="w-5 h-5" />
+            Open Chat
           </Link>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobs.length > 0 ? jobs.slice(0, 6).map((job) => (
-            <Link key={job.jobId} to={`/jobs/${job.jobId}`} className="group bg-white p-6 rounded-3xl border border-zinc-200 hover:border-indigo-600 hover:shadow-xl hover:shadow-indigo-500/5 transition-all space-y-4">
-              <div className="flex justify-between items-start">
-                <div className="w-12 h-12 bg-zinc-100 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                  <Briefcase className="w-6 h-6" />
-                </div>
-                <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full uppercase tracking-wider">
-                  {job.salary}
-                </span>
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-zinc-900 group-hover:text-indigo-600 transition-colors">{job.title}</h3>
-                <p className="text-zinc-500 text-sm font-medium">{job.businessName}</p>
-              </div>
-              <div className="flex items-center gap-4 text-zinc-400 text-xs font-medium">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  {job.location}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {new Date(job.createdAt).toLocaleDateString()}
-                </div>
-              </div>
-            </Link>
-          )) : (
-            <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
-              {t('no_jobs')}
-            </div>
-          )}
+        <div className="w-full md:w-1/3 aspect-video bg-indigo-500/50 rounded-3xl border border-indigo-400/30 flex items-center justify-center">
+          <MessageSquare className="w-20 h-20 text-indigo-300/50" />
         </div>
-      </section>
-
-      {/* Featured Offers */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-2">
-            <Tag className="w-6 h-6 text-indigo-600" />
-            {t('offers')}
-          </h2>
-          <Link to="/offers" className="text-indigo-600 font-medium hover:underline flex items-center gap-1">
-            View all <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {offers.length > 0 ? offers.slice(0, 6).map((offer) => (
-            <div key={offer.offerId} className="bg-white p-6 rounded-3xl border border-zinc-200 border-l-4 border-l-indigo-600 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
-                  <Tag className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-zinc-900">{offer.title}</h3>
-                  <p className="text-zinc-500 text-xs">{offer.businessName}</p>
-                </div>
-              </div>
-              <p className="text-zinc-600 text-sm line-clamp-2">{offer.description}</p>
-              <div className="pt-4 border-t border-zinc-100 flex items-center justify-between text-xs font-bold text-zinc-400">
-                <span className="uppercase tracking-widest">Expires</span>
-                <span className="text-indigo-600">{new Date(offer.expiryDate).toLocaleDateString()}</span>
-              </div>
-            </div>
-          )) : (
-            <div className="col-span-full py-12 text-center text-zinc-500 font-medium">
-              {t('no_offers')}
-            </div>
-          )}
-        </div>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 };
 

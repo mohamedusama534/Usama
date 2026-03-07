@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { Briefcase, MapPin, DollarSign, Clock, CheckCircle, ArrowLeft, Loader2, ShieldCheck } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, Clock, CheckCircle, ArrowLeft, Loader2, ShieldCheck, MessageCircle, Send, User, XCircle, Mail, Phone } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '../lib/utils';
 
 const JobDetails: React.FC = () => {
@@ -13,7 +14,21 @@ const JobDetails: React.FC = () => {
   const [job, setJob] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isApplying, setIsApplying] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [applied, setApplied] = useState(false);
+  const [comments, setComments] = useState<any[]>([]);
+  const [newComment, setNewComment] = useState('');
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+  const fetchComments = async () => {
+    try {
+      const res = await fetch(`/api/comments/${id}`);
+      const data = await res.json();
+      setComments(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -28,6 +43,7 @@ const JobDetails: React.FC = () => {
           const appsData = await appsRes.json();
           setApplied(appsData.some((a: any) => a.jobId === id));
         }
+        fetchComments();
       } catch (err) {
         console.error(err);
       } finally {
@@ -37,26 +53,70 @@ const JobDetails: React.FC = () => {
     fetchJob();
   }, [id, user, token]);
 
-  const handleApply = async () => {
+  const handleApply = async (withProfile: boolean = false) => {
     if (!user) return navigate('/login');
     if (user.role !== 'helper') return;
 
     setIsApplying(true);
     try {
+      const profileSnapshot = withProfile ? {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        location: user.location
+      } : null;
+
       const res = await fetch('/api/jobs/apply', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ jobId: id }),
+        body: JSON.stringify({ jobId: id, profileSnapshot }),
       });
-      if (res.ok) setApplied(true);
+      if (res.ok) {
+        setApplied(true);
+        setShowProfileModal(false);
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setIsApplying(false);
     }
+  };
+
+  const handlePostComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComment.trim() || !token) return;
+
+    setIsSubmittingComment(true);
+    try {
+      const res = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          postId: id,
+          postType: 'job',
+          content: newComment
+        })
+      });
+      if (res.ok) {
+        setNewComment('');
+        fetchComments();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmittingComment(false);
+    }
+  };
+
+  const handleMessageOwner = () => {
+    if (!user) return navigate('/login');
+    navigate('/chat', { state: { contactId: job.ownerId, contactName: job.businessName } });
   };
 
   if (isLoading) return <div className="flex justify-center py-20"><Loader2 className="w-8 h-8 animate-spin text-indigo-600" /></div>;
@@ -92,36 +152,175 @@ const JobDetails: React.FC = () => {
                   <DollarSign className="w-4 h-4" /> {job.salary}
                 </div>
                 <div className="px-4 py-2 bg-zinc-50 rounded-xl flex items-center gap-2 text-zinc-600 text-sm font-bold">
-                  <Clock className="w-4 h-4 text-indigo-500" /> {new Date(job.createdAt).toLocaleDateString()}
+                  <Clock className="w-4 h-4 text-indigo-500" /> Posted: {new Date(job.createdAt).toLocaleDateString()}
+                </div>
+                <div className="px-4 py-2 bg-red-50 rounded-xl flex items-center gap-2 text-red-600 text-sm font-bold">
+                  <Clock className="w-4 h-4" /> Deadline: {new Date(job.dueDate || job.createdAt).toLocaleDateString()}
                 </div>
               </div>
             </div>
 
             {user?.role === 'helper' && (
-              <button
-                onClick={handleApply}
-                disabled={applied || isApplying}
-                className={cn(
-                  "w-full md:w-auto px-12 py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2",
-                  applied 
-                    ? "bg-emerald-50 text-emerald-600 cursor-default" 
-                    : "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200"
+              <div className="flex flex-col gap-3 w-full md:w-auto">
+                <button
+                  onClick={() => handleApply(false)}
+                  disabled={applied || isApplying}
+                  className={cn(
+                    "w-full px-12 py-4 rounded-2xl font-bold transition-all flex items-center justify-center gap-2",
+                    applied 
+                      ? "bg-emerald-50 text-emerald-600 cursor-default" 
+                      : "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200"
+                  )}
+                >
+                  {isApplying ? <Loader2 className="w-5 h-5 animate-spin" /> : (
+                    applied ? <><CheckCircle className="w-5 h-5" /> Applied</> : t('apply')
+                  )}
+                </button>
+                
+                {!applied && (
+                  <button
+                    onClick={() => setShowProfileModal(true)}
+                    disabled={isApplying}
+                    className="w-full px-12 py-4 bg-indigo-50 text-indigo-600 rounded-2xl font-bold hover:bg-indigo-100 transition-all flex items-center justify-center gap-2 border border-indigo-100"
+                  >
+                    <User className="w-5 h-5" />
+                    Apply with Profile
+                  </button>
                 )}
-              >
-                {isApplying ? <Loader2 className="w-5 h-5 animate-spin" /> : (
-                  applied ? <><CheckCircle className="w-5 h-5" /> Applied</> : t('apply')
-                )}
-              </button>
+
+                <button
+                  onClick={handleMessageOwner}
+                  className="w-full px-12 py-4 bg-white border border-zinc-200 text-zinc-900 rounded-2xl font-bold hover:bg-zinc-50 transition-all flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-5 h-5 text-indigo-600" />
+                  Message Owner
+                </button>
+              </div>
             )}
           </div>
 
+          <AnimatePresence>
+            {showProfileModal && (
+              <div className="fixed inset-0 bg-zinc-900/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-[40px] w-full max-w-lg overflow-hidden shadow-2xl">
+                  <div className="p-8 border-b border-zinc-100 flex justify-between items-center bg-zinc-50/50">
+                    <h2 className="text-2xl font-bold text-zinc-900">Apply with Profile</h2>
+                    <button onClick={() => setShowProfileModal(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+                      <XCircle className="w-6 h-6 text-zinc-400" />
+                    </button>
+                  </div>
+                  <div className="p-8 space-y-6">
+                    <p className="text-zinc-500 font-medium">The following information from your profile will be shared with the employer:</p>
+                    
+                    <div className="space-y-4 bg-zinc-50 p-6 rounded-3xl border border-zinc-100">
+                      <div className="flex items-center gap-3">
+                        <User className="w-5 h-5 text-indigo-600" />
+                        <div>
+                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Full Name</p>
+                          <p className="font-bold text-zinc-900">{user.name}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Mail className="w-5 h-5 text-indigo-600" />
+                        <div>
+                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Email Address</p>
+                          <p className="font-bold text-zinc-900">{user.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Phone className="w-5 h-5 text-indigo-600" />
+                        <div>
+                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Phone Number</p>
+                          <p className="font-bold text-zinc-900">{user.phone || 'Not provided'}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-5 h-5 text-indigo-600" />
+                        <div>
+                          <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Location</p>
+                          <p className="font-bold text-zinc-900">{user.location || 'Not provided'}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setShowProfileModal(false)}
+                        className="flex-1 py-4 bg-zinc-100 text-zinc-600 rounded-2xl font-bold hover:bg-zinc-200 transition-all"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => handleApply(true)}
+                        disabled={isApplying}
+                        className="flex-1 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2"
+                      >
+                        {isApplying ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirm & Apply'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </AnimatePresence>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8 border-t border-zinc-100">
-            <div className="md:col-span-2 space-y-6">
+            <div className="md:col-span-2 space-y-12">
               <div className="space-y-3">
                 <h2 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
                   <FileText className="w-5 h-5 text-indigo-600" /> {t('description')}
                 </h2>
                 <p className="text-zinc-600 leading-relaxed whitespace-pre-wrap">{job.description}</p>
+              </div>
+
+              {/* Comments Section */}
+              <div className="space-y-6">
+                <h2 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5 text-indigo-600" />
+                  Comments ({comments.length})
+                </h2>
+
+                {user && (
+                  <form onSubmit={handlePostComment} className="flex gap-3">
+                    <input
+                      type="text"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      placeholder="Add a comment..."
+                      className="flex-1 px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                    />
+                    <button
+                      type="submit"
+                      disabled={isSubmittingComment || !newComment.trim()}
+                      className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 disabled:opacity-50 transition-all flex items-center gap-2"
+                    >
+                      {isSubmittingComment ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                      Post
+                    </button>
+                  </form>
+                )}
+
+                <div className="space-y-4">
+                  {comments.map((comment) => (
+                    <div key={comment.commentId} className="bg-zinc-50 p-4 rounded-2xl space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-zinc-200 rounded-lg flex items-center justify-center text-zinc-500">
+                            <User className="w-3 h-3" />
+                          </div>
+                          <span className="text-sm font-bold text-zinc-900">{comment.userName}</span>
+                        </div>
+                        <span className="text-[10px] text-zinc-400 font-medium">
+                          {new Date(comment.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p className="text-sm text-zinc-600">{comment.content}</p>
+                    </div>
+                  ))}
+                  {comments.length === 0 && (
+                    <p className="text-center py-8 text-zinc-400 text-sm font-medium">No comments yet. Be the first to comment!</p>
+                  )}
+                </div>
               </div>
             </div>
 

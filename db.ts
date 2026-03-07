@@ -41,6 +41,7 @@ db.exec(`
     location TEXT,
     requiredSkills TEXT,
     description TEXT,
+    experienceLevel TEXT CHECK(experienceLevel IN ('Entry Level', 'Intermediate', 'Senior')) DEFAULT 'Entry Level',
     status TEXT CHECK(status IN ('open', 'closed', 'completed')) DEFAULT 'open',
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (businessId) REFERENCES businesses(businessId)
@@ -51,6 +52,7 @@ db.exec(`
     jobId TEXT NOT NULL,
     helperId TEXT NOT NULL,
     status TEXT CHECK(status IN ('pending', 'accepted', 'rejected')) DEFAULT 'pending',
+    profileSnapshot TEXT,
     appliedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (jobId) REFERENCES jobs(jobId),
     FOREIGN KEY (helperId) REFERENCES users(userId)
@@ -95,6 +97,27 @@ db.exec(`
     FOREIGN KEY (senderId) REFERENCES users(userId),
     FOREIGN KEY (receiverId) REFERENCES users(userId)
   );
+
+  CREATE TABLE IF NOT EXISTS comments (
+    commentId TEXT PRIMARY KEY,
+    postId TEXT NOT NULL,
+    postType TEXT CHECK(postType IN ('job', 'offer', 'poster')) NOT NULL,
+    userId TEXT NOT NULL,
+    content TEXT NOT NULL,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users(userId)
+  );
+
+  CREATE TABLE IF NOT EXISTS posters (
+    posterId TEXT PRIMARY KEY,
+    businessId TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    imageUrl TEXT NOT NULL,
+    price TEXT,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (businessId) REFERENCES businesses(businessId)
+  );
 `);
 
 // --- Seed Data ---
@@ -105,17 +128,17 @@ const seed = async () => {
     console.log("Seeding initial data...");
     
     const users = [
-      { id: uuidv4(), name: 'Admin User', email: 'admin@workbridge.com', password: 'admin123', role: 'admin' },
-      { id: uuidv4(), name: 'Business Owner', email: 'business@workbridge.com', password: 'business123', role: 'business' },
-      { id: uuidv4(), name: 'Helper User', email: 'helper@workbridge.com', password: 'helper123', role: 'helper' },
-      { id: uuidv4(), name: 'Normal User', email: 'user@workbridge.com', password: 'user123', role: 'normal' },
+      { id: uuidv4(), name: 'Admin User', email: 'admin@workbridge.com', password: 'admin123', role: 'admin', phone: '+91 00000 00000' },
+      { id: uuidv4(), name: 'Business Owner', email: 'business@workbridge.com', password: 'business123', role: 'business', phone: '+91 11111 11111' },
+      { id: uuidv4(), name: 'Helper User', email: 'helper@workbridge.com', password: 'helper123', role: 'helper', phone: '+91 22222 22222' },
+      { id: uuidv4(), name: 'Normal User', email: 'user@workbridge.com', password: 'user123', role: 'normal', phone: '+91 33333 33333' },
     ];
 
     for (const u of users) {
       const hashedPassword = await bcrypt.hash(u.password, 10);
       db.prepare(
-        "INSERT INTO users (userId, name, email, password, role, location) VALUES (?, ?, ?, ?, ?, ?)"
-      ).run(u.id, u.name, u.email, hashedPassword, u.role, 'Chennai, Tamil Nadu');
+        "INSERT INTO users (userId, name, email, phone, password, role, location) VALUES (?, ?, ?, ?, ?, ?, ?)"
+      ).run(u.id, u.name, u.email, u.phone, hashedPassword, u.role, 'Chennai, Tamil Nadu');
 
       if (u.role === 'business') {
         const businessId = uuidv4();
@@ -125,7 +148,7 @@ const seed = async () => {
         
         // Add a sample job
         db.prepare(
-          "INSERT INTO jobs (jobId, businessId, title, salary, location, requiredSkills, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+          "INSERT INTO jobs (jobId, businessId, title, salary, location, requiredSkills, description, experienceLevel) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         ).run(
           uuidv4(), 
           businessId, 
@@ -133,7 +156,8 @@ const seed = async () => {
           '₹15,000', 
           'Chennai', 
           'Driving, Basic Tamil', 
-          'Looking for a helper to assist with local deliveries in the city.'
+          'Looking for a helper to assist with local deliveries in the city.',
+          'Entry Level'
         );
 
         // Add a sample offer

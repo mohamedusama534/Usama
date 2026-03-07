@@ -9,7 +9,11 @@ import Dashboard from './pages/Dashboard';
 import Jobs from './pages/Jobs';
 import Offers from './pages/Offers';
 import JobDetails from './pages/JobDetails';
+import OfferDetails from './pages/OfferDetails';
+import Posters from './pages/Posters';
+import PosterDetails from './pages/PosterDetails';
 import Chat from './pages/Chat';
+import Profile from './pages/Profile';
 import './i18n';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -29,9 +33,36 @@ const AppRoutes = () => {
         } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/jobs/:id" element={<JobDetails />} />
-        <Route path="/offers" element={<Offers />} />
+        <Route path="/jobs" element={
+          <PrivateRoute>
+            <Jobs />
+          </PrivateRoute>
+        } />
+        <Route path="/jobs/:id" element={
+          <PrivateRoute>
+            <JobDetails />
+          </PrivateRoute>
+        } />
+        <Route path="/offers" element={
+          <PrivateRoute>
+            <Offers />
+          </PrivateRoute>
+        } />
+        <Route path="/offers/:id" element={
+          <PrivateRoute>
+            <OfferDetails />
+          </PrivateRoute>
+        } />
+        <Route path="/posters" element={
+          <PrivateRoute>
+            <Posters />
+          </PrivateRoute>
+        } />
+        <Route path="/posters/:id" element={
+          <PrivateRoute>
+            <PosterDetails />
+          </PrivateRoute>
+        } />
         
         <Route path="/dashboard" element={
           <PrivateRoute>
@@ -47,10 +78,7 @@ const AppRoutes = () => {
 
         <Route path="/profile" element={
           <PrivateRoute>
-            <div className="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-zinc-200 space-y-6">
-              <h1 className="text-3xl font-bold text-zinc-900">Profile Management</h1>
-              <p className="text-zinc-500 font-medium">Coming soon: Update your profile, change role, and manage notifications.</p>
-            </div>
+            <Profile />
           </PrivateRoute>
         } />
       </Routes>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
-import { Home, Briefcase, Tag, MessageSquare, User, LogOut, Settings, PlusCircle, Globe } from 'lucide-react';
+import { Home, Briefcase, Tag, MessageSquare, User, LogOut, Settings, PlusCircle, Globe, Image as ImageIcon, Search } from 'lucide-react';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
 
@@ -18,11 +18,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const navItems = [
     { path: '/', icon: Home, label: t('home') },
-    { path: '/jobs', icon: Briefcase, label: t('jobs') },
-    { path: '/offers', icon: Tag, label: t('offers') },
   ];
 
   if (user) {
+    navItems.push({ path: '/jobs', icon: Briefcase, label: t('jobs') });
+    navItems.push({ path: '/offers', icon: Tag, label: t('offers') });
+    navItems.push({ path: '/posters', icon: ImageIcon, label: 'Posters' });
     navItems.push({ path: '/dashboard', icon: Settings, label: t('dashboard') });
     navItems.push({ path: '/chat', icon: MessageSquare, label: t('chat') });
     navItems.push({ path: '/profile', icon: User, label: t('profile') });
@@ -91,6 +92,28 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           {children}
         </motion.div>
       </main>
+
+      {/* Floating Action Button (FAB) */}
+      {user && (
+        <motion.div 
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-24 right-6 md:bottom-10 md:right-10 z-50"
+        >
+          <Link 
+            to={user.role === 'business' ? '/dashboard' : '/jobs'} 
+            className="w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-indigo-500/50 hover:bg-indigo-700 transition-all group"
+          >
+            {user.role === 'business' ? (
+              <PlusCircle className="w-8 h-8 group-hover:rotate-90 transition-transform duration-300" />
+            ) : (
+              <Search className="w-8 h-8" />
+            )}
+          </Link>
+        </motion.div>
+      )}
 
       {/* Bottom Navigation (Mobile Only) */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200 px-4 py-2 flex justify-around items-center z-50">

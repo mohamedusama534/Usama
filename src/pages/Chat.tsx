@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLocation } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { Send, User, Loader2, MessageSquare } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const Chat: React.FC = () => {
   const { user, token } = useAuth();
+  const location = useLocation();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
@@ -27,9 +29,22 @@ const Chat: React.FC = () => {
     });
 
     // Mock contacts for demo - in real app, fetch from conversations table
-    setContacts([
+    const initialContacts = [
       { userId: 'system', name: 'WorkBridge Support', role: 'admin' },
-    ]);
+    ];
+
+    // Add contact from location state if it exists
+    const state = location.state as { contactId?: string; contactName?: string } | null;
+    if (state?.contactId && !initialContacts.find(c => c.userId === state.contactId)) {
+      initialContacts.push({
+        userId: state.contactId,
+        name: state.contactName || 'Business Owner',
+        role: 'business'
+      });
+      setActiveChat(state.contactId);
+    }
+
+    setContacts(initialContacts);
     setIsLoading(false);
 
     return () => {
