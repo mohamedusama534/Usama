@@ -37,6 +37,18 @@ function updateRoleUI() {
         activeRegBtn.classList.add('border-indigo-600', 'bg-indigo-50/50');
     }
 
+    // Update login buttons
+    document.querySelectorAll('.role-btn-login').forEach(btn => {
+        btn.classList.remove('border-indigo-600', 'bg-indigo-50/50');
+        btn.classList.add('border-zinc-100', 'bg-zinc-50');
+    });
+
+    const activeLoginBtn = document.getElementById(`role-login-${currentRole}`);
+    if (activeLoginBtn) {
+        activeLoginBtn.classList.remove('border-zinc-100', 'bg-zinc-50');
+        activeLoginBtn.classList.add('border-indigo-600', 'bg-indigo-50/50');
+    }
+
     // Show/Hide specific fields (only on register page)
     const bizFields = document.getElementById('business-fields');
     const helperFields = document.getElementById('helper-fields');
@@ -55,16 +67,16 @@ function updateRoleUI() {
 function handleLogin(event) {
     event.preventDefault();
     const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
     
-    const users = JSON.parse(localStorage.getItem('wb_users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
+    // Mock user data for login
+    const userData = {
+        name: 'John Doe',
+        role: 'normal',
+        phone: '+91 98765 43210',
+        location: 'Chennai, TN'
+    };
     
-    if (user) {
-        showDashboard(user);
-    } else {
-        alert('Invalid email or password. Please try again.');
-    }
+    showDashboard(userData);
 }
 
 function handleRegister(event) {
@@ -75,7 +87,6 @@ function handleRegister(event) {
         email: document.getElementById('reg-email').value,
         phone: document.getElementById('reg-phone').value,
         location: document.getElementById('reg-location').value,
-        password: document.getElementById('reg-password').value,
         role: currentRole
     };
 
@@ -94,15 +105,6 @@ function handleRegister(event) {
             'Timing': document.getElementById('reg-avail').value
         };
     }
-
-    // Save to localStorage
-    const users = JSON.parse(localStorage.getItem('wb_users') || '[]');
-    if (users.some(u => u.email === userData.email)) {
-        alert('This email is already registered.');
-        return;
-    }
-    users.push(userData);
-    localStorage.setItem('wb_users', JSON.stringify(users));
 
     showDashboard(userData);
 }
