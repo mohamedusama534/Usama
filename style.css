@@ -1,169 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500&display=swap');
-
+/* Custom Styles */
 :root {
-    --wb-black: #000000;
-    --wb-white: #ffffff;
-    --wb-accent: #00FF00; /* Neon Green */
-    --wb-gray: #f5f5f5;
-    --f-display: 'Anton', sans-serif;
-    --f-body: 'Inter', sans-serif;
-    --f-mono: 'JetBrains Mono', monospace;
+    --indigo-600: #4f46e5;
+    --indigo-700: #4338ca;
 }
 
 body {
-    background-color: var(--wb-white);
-    background-image: 
-        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    font-family: var(--f-body);
-    color: var(--wb-black);
     -webkit-font-smoothing: antialiased;
-    position: relative;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.05;
-    pointer-events: none;
-    z-index: 9999;
+.role-btn.active, .role-btn-login.active {
+    border-color: var(--indigo-600);
+    background-color: rgba(79, 70, 229, 0.05);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
 }
 
-/* Brutalist Typography */
-.display-text {
-    font-family: var(--f-display);
-    text-transform: uppercase;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    position: relative;
+input:focus, textarea:focus {
+    border-color: var(--indigo-600);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
-.display-text::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 4px;
-    top: 4px;
-    color: var(--wb-accent);
-    z-index: -1;
-    -webkit-text-stroke: 1px black;
-}
-
-.mono-label {
-    font-family: var(--f-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    background: var(--wb-black);
-    color: var(--wb-white);
-    padding: 2px 6px;
-    display: inline-block;
-}
-
-/* Graphic Elements */
-.brutal-border {
-    border: 3px solid var(--wb-black);
-    box-shadow: 8px 8px 0px var(--wb-black);
-    transition: all 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-.brutal-border:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 12px 12px 0px var(--wb-accent);
-}
-
-.brutal-btn {
-    background: var(--wb-black);
-    color: var(--wb-white);
-    border: 3px solid var(--wb-black);
-    font-weight: 900;
-    text-transform: uppercase;
-    padding: 1rem 2rem;
-    transition: all 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.brutal-btn:hover {
-    background: var(--wb-accent);
-    color: var(--wb-black);
-    transform: translate(-4px, -4px);
-    box-shadow: 8px 8px 0px var(--wb-black);
-}
-
-.brutal-btn:active {
-    transform: translate(0, 0);
-    box-shadow: 0px 0px 0px var(--wb-black);
-}
-
-/* Sticker Effect */
-.sticker {
-    transform: rotate(var(--rotation, -2deg));
-    display: inline-block;
-}
-
-/* Glitch Animation */
-@keyframes glitch {
-    0% { clip-path: inset(40% 0 61% 0); }
-    20% { clip-path: inset(92% 0 1% 0); }
-    40% { clip-path: inset(43% 0 1% 0); }
-    60% { clip-path: inset(25% 0 58% 0); }
-    80% { clip-path: inset(54% 0 7% 0); }
-    100% { clip-path: inset(58% 0 43% 0); }
-}
-
-.glitch-hover:hover {
-    animation: glitch 0.3s infinite;
-    color: var(--wb-accent);
-}
-
-/* Marquee Animation */
-.marquee-container {
-    overflow: hidden;
-    background: var(--wb-black);
-    color: var(--wb-white);
-    padding: 0.5rem 0;
-    border-top: 2px solid var(--wb-black);
-    border-bottom: 2px solid var(--wb-black);
-}
-
-.marquee-track {
-    display: flex;
-    white-space: nowrap;
-    animation: marquee 20s linear infinite;
-}
-
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-/* Page Transitions */
-@keyframes slamIn {
-    0% { transform: scale(1.1) translateY(20px); opacity: 0; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 #app-content > div {
-    animation: slamIn 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--wb-white);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--wb-black);
-    border: 3px solid var(--wb-white);
+    animation: fadeIn 0.3s ease-out forwards;
 }

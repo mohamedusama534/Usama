@@ -3,113 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkBridge - Connect & Grow</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>WorkBridge | Connecting Businesses & Helpers</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-white font-['Inter'] text-black">
-    <!-- Marquee -->
-    <div class="marquee-container">
-        <div class="marquee-track">
-            <span class="mx-4 font-black uppercase text-xs tracking-widest">WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • </span>
-            <span class="mx-4 font-black uppercase text-xs tracking-widest">WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • WorkBridge • Connecting Talent • Hiring Now • </span>
-        </div>
-    </div>
-
+<body class="bg-zinc-50 font-['Inter'] text-zinc-900">
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white border-b-2 border-black">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="showPage('home')">
-                <div class="w-12 h-12 bg-black flex items-center justify-center text-white border-2 border-black group-hover:bg-emerald-400 group-hover:text-black transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v4h3v7h4v-7h3v-4L12 3z"/></svg>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v4h3v7h4v-7h3v-4L12 3z"/></svg>
                 </div>
-                <span class="text-2xl font-black tracking-tighter uppercase glitch-hover">WorkBridge</span>
+                <span class="text-xl font-bold tracking-tight">WorkBridge</span>
             </div>
-            <div class="flex items-center gap-6">
-                <button onclick="showPage('login')" class="text-sm font-black uppercase tracking-widest hover:text-emerald-500 transition-colors">Login</button>
-                <button onclick="showPage('register')" class="px-6 py-3 bg-black text-white text-sm font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-black transition-all border-2 border-black">Sign Up</button>
+            <div class="flex items-center gap-4">
+                <button onclick="showPage('login')" class="text-sm font-bold text-zinc-600 hover:text-indigo-600 transition-colors">Login</button>
+                <button onclick="showPage('register')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">Sign Up</button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content Container -->
-    <main id="app-content" class="max-w-7xl mx-auto px-4 py-16">
+    <main id="app-content" class="max-w-7xl mx-auto px-4 py-12">
         <!-- Pages will be injected here -->
     </main>
 
     <!-- Templates -->
     <template id="home-page">
-        <div class="space-y-32 py-12">
+        <div class="space-y-20 py-12">
             <!-- Hero Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-10">
-                    <div class="sticker" style="--rotation: -3deg;">
-                        <div class="mono-label bg-emerald-400 inline-block px-3 py-1 border-2 border-black">The Future of Work</div>
-                    </div>
-                    <h1 class="text-[120px] display-text" data-text="CONNECT & GROW">
-                        Connect<br><span class="text-emerald-500">&</span> Grow
-                    </h1>
-                    <p class="text-2xl font-bold text-zinc-600 max-w-xl leading-tight">
-                        The bridge between opportunity and talent. Find jobs, hire helpers, and grow your community.
-                    </p>
-                    <div class="flex items-center gap-6">
-                        <button onclick="showPage('register')" class="brutal-btn text-lg px-12 py-6">Get Started Now</button>
-                        <div class="relative group">
-                            <button class="text-sm font-black uppercase tracking-widest border-b-4 border-black pb-1 hover:text-emerald-500 hover:border-emerald-500 transition-all">Learn More</button>
-                            <svg class="absolute -right-12 top-0 w-8 h-8 rotate-12 opacity-0 group-hover:opacity-100 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="w-full aspect-square bg-zinc-100 border-4 border-black brutal-border overflow-hidden rotate-2">
-                        <img src="https://picsum.photos/seed/work/800/800" alt="Work" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer">
-                    </div>
-                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400 border-4 border-black rounded-full flex items-center justify-center rotate-12 brutal-border animate-bounce">
-                        <span class="text-xs font-black uppercase text-center leading-tight">New<br>Jobs!</span>
-                    </div>
-                    <div class="absolute -bottom-8 -left-8 bg-emerald-400 border-4 border-black p-8 brutal-border sticker" style="--rotation: 5deg;">
-                        <div class="text-4xl font-black display-text" data-text="5000+">5000+</div>
-                        <div class="mono-label">Active Helpers</div>
-                    </div>
+            <div class="text-center space-y-8 py-12">
+                <h1 class="text-6xl font-black tracking-tight text-zinc-900">
+                    Connecting <span class="text-indigo-600">Businesses</span><br>with Local <span class="text-emerald-600">Helpers</span>
+                </h1>
+                <p class="text-xl text-zinc-500 max-w-2xl mx-auto font-medium">
+                    The bridge between opportunity and talent. Find jobs, hire helpers, and grow your community.
+                </p>
+                <div class="flex items-center justify-center gap-4">
+                    <button onclick="showPage('register')" class="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200">Get Started</button>
+                    <button class="px-8 py-4 bg-white text-zinc-900 border border-zinc-200 rounded-2xl font-bold hover:bg-zinc-50 transition-all">Learn More</button>
                 </div>
             </div>
 
             <!-- Featured Sections -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- For Businesses -->
-                <div class="bg-white p-12 border-4 border-black brutal-border space-y-8">
-                    <div class="w-16 h-16 bg-black text-white flex items-center justify-center border-2 border-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <div class="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                     </div>
-                    <h3 class="text-5xl display-text">For Businesses</h3>
-                    <p class="text-lg font-bold text-zinc-600">Post jobs, browse helper profiles, and find the perfect match for your business needs.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3 text-sm font-black uppercase tracking-widest">
-                            <div class="w-6 h-6 bg-emerald-400 border-2 border-black flex items-center justify-center">✓</div>
+                    <h3 class="text-2xl font-bold">For Businesses</h3>
+                    <p class="text-zinc-500 font-medium">Post jobs, browse helper profiles, and find the perfect match for your business needs.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-zinc-600 font-medium">
+                            <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             Verified helper profiles
                         </li>
-                        <li class="flex items-center gap-3 text-sm font-black uppercase tracking-widest">
-                            <div class="w-6 h-6 bg-emerald-400 border-2 border-black flex items-center justify-center">✓</div>
+                        <li class="flex items-center gap-2 text-sm text-zinc-600 font-medium">
+                            <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             Easy job posting
                         </li>
                     </ul>
                 </div>
 
                 <!-- For Helpers -->
-                <div class="bg-emerald-400 p-12 border-4 border-black brutal-border space-y-8">
-                    <div class="w-16 h-16 bg-black text-white flex items-center justify-center border-2 border-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+                <div class="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
                     </div>
-                    <h3 class="text-5xl display-text">For Helpers</h3>
-                    <p class="text-lg font-bold text-black">Create your profile, showcase your experience, and find flexible work that fits your schedule.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3 text-sm font-black uppercase tracking-widest">
-                            <div class="w-6 h-6 bg-black border-2 border-black flex items-center justify-center text-white">✓</div>
+                    <h3 class="text-2xl font-bold">For Helpers</h3>
+                    <p class="text-zinc-500 font-medium">Create your profile, showcase your experience, and find flexible work that fits your schedule.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-2 text-sm text-zinc-600 font-medium">
+                            <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             Flexible timings
                         </li>
-                        <li class="flex items-center gap-3 text-sm font-black uppercase tracking-widest">
-                            <div class="w-6 h-6 bg-black border-2 border-black flex items-center justify-center text-white">✓</div>
+                        <li class="flex items-center gap-2 text-sm text-zinc-600 font-medium">
+                            <svg class="text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                             Direct business contact
                         </li>
                     </ul>
@@ -119,170 +91,154 @@
     </template>
 
     <template id="login-page">
-        <div class="max-w-md mx-auto space-y-12">
-            <div class="text-center space-y-4">
-                <h1 class="text-6xl display-text" data-text="WELCOME">Welcome</h1>
-                <p class="mono-label">Enter your credentials to access your account</p>
+        <div class="max-w-md mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <h1 class="text-3xl font-bold">Welcome Back</h1>
+                <p class="text-zinc-500">Enter your credentials to access your account</p>
             </div>
-            <form onsubmit="handleLogin(event)" class="bg-white p-10 border-4 border-black brutal-border space-y-8">
-                <!-- Role Selection -->
-                <div class="space-y-4">
-                    <label class="mono-label font-black">Login as...</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="setRole('normal')" id="role-login-normal" class="role-btn-login p-4 border-2 border-black font-black uppercase text-xs transition-all">Normal</button>
-                        <button type="button" onclick="setRole('helper')" id="role-login-helper" class="role-btn-login p-4 border-2 border-black font-black uppercase text-xs transition-all">Helper</button>
-                        <button type="button" onclick="setRole('business')" id="role-login-business" class="role-btn-login p-4 border-2 border-black font-black uppercase text-xs transition-all">Business</button>
-                    </div>
+            <form onsubmit="handleLogin(event)" class="bg-white p-8 rounded-3xl border border-zinc-200 shadow-xl space-y-6">
+                <div class="space-y-2">
+                    <label class="text-sm font-bold text-zinc-700">Email</label>
+                    <input type="email" id="login-email" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="name@example.com">
                 </div>
-
-                <div class="space-y-4">
-                    <div class="space-y-2">
-                        <label class="mono-label font-black">Email</label>
-                        <input type="email" id="login-email" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="name@example.com">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="mono-label font-black">Password</label>
-                        <input type="password" id="login-password" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="••••••••">
-                    </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-bold text-zinc-700">Password</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="••••••••">
                 </div>
-                <button type="submit" class="brutal-btn w-full py-6">Login</button>
-                <p class="text-center text-xs font-black uppercase tracking-widest">
-                    Don't have an account? <button type="button" onclick="showPage('register')" class="text-emerald-600 hover:underline">Sign Up</button>
+                <button type="submit" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all">Login</button>
+                <p class="text-center text-sm text-zinc-500 font-medium">
+                    Don't have an account? <button type="button" onclick="showPage('register')" class="text-indigo-600 hover:underline">Sign Up</button>
                 </p>
             </form>
         </div>
     </template>
 
     <template id="register-page">
-        <div class="max-w-3xl mx-auto space-y-12">
-            <div class="text-center space-y-4">
-                <h1 class="text-6xl display-text" data-text="JOIN US">Join Us</h1>
-                <p class="mono-label">Join the WorkBridge community today</p>
+        <div class="max-w-2xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <h1 class="text-3xl font-bold">Create Account</h1>
+                <p class="text-zinc-500">Join the WorkBridge community today</p>
             </div>
-            <form onsubmit="handleRegister(event)" class="bg-white p-12 border-4 border-black brutal-border space-y-12">
+            <form onsubmit="handleRegister(event)" class="bg-white p-8 rounded-3xl border border-zinc-200 shadow-xl space-y-8">
                 <!-- Role Selection -->
-                <div class="space-y-6">
-                    <label class="mono-label font-black">I am a...</label>
-                    <div class="grid grid-cols-3 gap-6">
-                        <button type="button" onclick="setRole('normal')" id="role-normal" class="role-btn p-6 border-2 border-black text-left transition-all">
-                            <span class="block font-black uppercase text-sm">Normal</span>
-                            <span class="mono-label text-[10px] opacity-50">Browse only</span>
+                <div class="space-y-4">
+                    <label class="text-sm font-bold text-zinc-700">I am a...</label>
+                    <div class="grid grid-cols-3 gap-4">
+                        <button type="button" onclick="setRole('normal')" id="role-normal" class="role-btn p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 text-left transition-all">
+                            <span class="block font-bold text-sm">Normal</span>
+                            <span class="text-[10px] text-zinc-500 leading-tight">Browse only</span>
                         </button>
-                        <button type="button" onclick="setRole('helper')" id="role-helper" class="role-btn p-6 border-2 border-black text-left transition-all">
-                            <span class="block font-black uppercase text-sm">Helper</span>
-                            <span class="mono-label text-[10px] opacity-50">Find jobs</span>
+                        <button type="button" onclick="setRole('helper')" id="role-helper" class="role-btn p-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 text-left transition-all">
+                            <span class="block font-bold text-sm">Helper</span>
+                            <span class="text-[10px] text-zinc-500 leading-tight">Find jobs</span>
                         </button>
-                        <button type="button" onclick="setRole('business')" id="role-business" class="role-btn p-6 border-2 border-black text-left transition-all">
-                            <span class="block font-black uppercase text-sm">Business</span>
-                            <span class="mono-label text-[10px] opacity-50">Hire talent</span>
+                        <button type="button" onclick="setRole('business')" id="role-business" class="role-btn p-4 rounded-2xl border-2 border-zinc-100 bg-zinc-50 text-left transition-all">
+                            <span class="block font-bold text-sm">Business</span>
+                            <span class="text-[10px] text-zinc-500 leading-tight">Hire talent</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
-                        <label class="mono-label font-black">Full Name</label>
-                        <input type="text" id="reg-name" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="John Doe">
+                        <label class="text-sm font-bold text-zinc-700">Full Name</label>
+                        <input type="text" id="reg-name" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="John Doe">
                     </div>
                     <div class="space-y-2">
-                        <label class="mono-label font-black">Email</label>
-                        <input type="email" id="reg-email" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="name@example.com">
+                        <label class="text-sm font-bold text-zinc-700">Email</label>
+                        <input type="email" id="reg-email" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="name@example.com">
                     </div>
                     <div class="space-y-2">
-                        <label class="mono-label font-black">Phone</label>
-                        <input type="tel" id="reg-phone" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="+91 98765 43210">
+                        <label class="text-sm font-bold text-zinc-700">Phone</label>
+                        <input type="tel" id="reg-phone" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="+91 98765 43210">
                     </div>
                     <div class="space-y-2">
-                        <label class="mono-label font-black">Location</label>
-                        <input type="text" id="reg-location" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="Chennai, TN">
+                        <label class="text-sm font-bold text-zinc-700">Location</label>
+                        <input type="text" id="reg-location" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="Chennai, TN">
                     </div>
                     <div class="space-y-2 md:col-span-2">
-                        <label class="mono-label font-black">Password</label>
-                        <input type="password" id="reg-password" required class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="••••••••">
+                        <label class="text-sm font-bold text-zinc-700">Password</label>
+                        <input type="password" id="reg-password" required class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="••••••••">
                     </div>
 
                     <!-- Business Fields -->
-                    <div id="business-fields" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div id="business-fields" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="mono-label font-black">Kind of Business</label>
-                            <input type="text" id="reg-category" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="e.g. Restaurant">
+                            <label class="text-sm font-bold text-zinc-700">Kind of Business</label>
+                            <input type="text" id="reg-category" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="e.g. Restaurant">
                         </div>
                         <div class="space-y-2">
-                            <label class="mono-label font-black">How many years doing</label>
-                            <input type="number" id="reg-years-biz" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="e.g. 5">
+                            <label class="text-sm font-bold text-zinc-700">How many years doing</label>
+                            <input type="number" id="reg-years-biz" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="e.g. 5">
                         </div>
                         <div class="space-y-2 md:col-span-2">
-                            <label class="mono-label font-black">Describe the business</label>
-                            <textarea id="reg-desc" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all min-h-[120px]" placeholder="Tell us about your business..."></textarea>
+                            <label class="text-sm font-bold text-zinc-700">Describe the business</label>
+                            <textarea id="reg-desc" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all min-h-[100px]" placeholder="Tell us about your business..."></textarea>
                         </div>
                     </div>
 
                     <!-- Helper Fields -->
-                    <div id="helper-fields" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div id="helper-fields" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="mono-label font-black">Last place of work</label>
-                            <input type="text" id="reg-last-work" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="Where did you work last?">
+                            <label class="text-sm font-bold text-zinc-700">Last place of work</label>
+                            <input type="text" id="reg-last-work" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="Where did you work last?">
                         </div>
                         <div class="space-y-2">
-                            <label class="mono-label font-black">Years of experience</label>
-                            <input type="number" id="reg-exp" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="e.g. 3">
+                            <label class="text-sm font-bold text-zinc-700">Years of experience</label>
+                            <input type="number" id="reg-exp" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="e.g. 3">
                         </div>
                         <div class="space-y-2">
-                            <label class="mono-label font-black">Preferred type of work</label>
-                            <input type="text" id="reg-pref-work" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="e.g. Cleaning">
+                            <label class="text-sm font-bold text-zinc-700">Preferred type of work</label>
+                            <input type="text" id="reg-pref-work" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="e.g. Cleaning">
                         </div>
                         <div class="space-y-2">
-                            <label class="mono-label font-black">Availability / Timing</label>
-                            <input type="text" id="reg-avail" class="w-full px-6 py-4 bg-zinc-50 border-2 border-black focus:bg-emerald-50 outline-none transition-all" placeholder="e.g. Weekends">
+                            <label class="text-sm font-bold text-zinc-700">Availability / Timing</label>
+                            <input type="text" id="reg-avail" class="w-full px-4 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="e.g. Weekends">
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="brutal-btn w-full py-8 text-xl">Create Account</button>
-                <p class="text-center text-xs font-black uppercase tracking-widest">
-                    Already have an account? <button type="button" onclick="showPage('login')" class="text-emerald-600 hover:underline">Login</button>
+                <button type="submit" class="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all">Sign Up</button>
+                <p class="text-center text-sm text-zinc-500 font-medium">
+                    Already have an account? <button type="button" onclick="showPage('login')" class="text-indigo-600 hover:underline">Login</button>
                 </p>
             </form>
         </div>
     </template>
 
     <template id="dashboard-page">
-        <div class="max-w-6xl mx-auto space-y-12">
-            <div class="flex items-center justify-between border-b-4 border-black pb-8">
-                <h1 class="text-6xl display-text" data-text="DASHBOARD">Dashboard</h1>
-                <button onclick="showPage('home')" class="mono-label font-black hover:text-emerald-500 border-2 border-black px-6 py-3">Logout</button>
+        <div class="max-w-4xl mx-auto space-y-8">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold">Your Dashboard</h1>
+                <button onclick="showPage('home')" class="text-sm font-bold text-zinc-500 hover:text-indigo-600">Logout</button>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Profile Card -->
-                <div class="lg:col-span-1 bg-white p-10 border-4 border-black brutal-border space-y-8">
-                    <div class="w-32 h-32 bg-emerald-400 border-4 border-black flex items-center justify-center mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <div class="md:col-span-1 bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+                    <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
-                    <div class="text-center space-y-2">
-                        <h2 id="dash-name" class="text-4xl display-text">User Name</h2>
-                        <div id="dash-role" class="mono-label bg-black text-white inline-block px-3 py-1">Role</div>
+                    <div class="text-center space-y-1">
+                        <h2 id="dash-name" class="text-xl font-bold">User Name</h2>
+                        <p id="dash-role" class="text-sm text-zinc-500 uppercase tracking-wider font-bold">Role</p>
                     </div>
-                    <div class="space-y-6 pt-8 border-t-2 border-black">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-zinc-100 border-2 border-black flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            </div>
-                            <span id="dash-phone" class="font-black uppercase text-sm tracking-widest">Phone</span>
+                    <div class="space-y-4 pt-4 border-t border-zinc-100">
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="text-zinc-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span id="dash-phone">Phone</span>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-zinc-100 border-2 border-black flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            </div>
-                            <span id="dash-location" class="font-black uppercase text-sm tracking-widest">Location</span>
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="text-zinc-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span id="dash-location">Location</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Details Card -->
-                <div class="lg:col-span-2 bg-white p-12 border-4 border-black brutal-border space-y-10">
-                    <h3 class="text-5xl display-text">Account Details</h3>
-                    <div id="dash-details" class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="md:col-span-2 bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+                    <h3 class="text-xl font-bold">Account Details</h3>
+                    <div id="dash-details" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Dynamic details will be injected here -->
                     </div>
                 </div>
